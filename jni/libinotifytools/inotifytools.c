@@ -892,6 +892,7 @@ watch *create_watch(int wd, char *filename) {
 	w->filename = strdup(filename);
 	rbsearch(w, tree_wd);
 	rbsearch(w, tree_filename);
+	return NULL;
 }
 
 /**
@@ -2047,7 +2048,7 @@ int event_compare(const void *p1, const void *p2, const void *config)
 
 struct rbtree *inotifytools_wd_sorted_by_event(int sort_event)
 {
-	struct rbtree *ret = rbinit(event_compare, (void*)sort_event);
+	struct rbtree *ret = rbinit(event_compare, (void*)(uintptr_t)sort_event);
 	RBLIST *all = rbopenlist(tree_wd);
 	void const *p = rbreadlist(all);
 	while (p) {
